@@ -1,8 +1,13 @@
 # ClassManage-Wayfinding
-> Coursework of DataStructure of BUPT 2022. Created Apr 7 2022.
+> Coursework of DataStructure of BUPT 2022. Created Apr 7 2022. Using on React with Redux and Python with Flask.
 
 
-
+## How to start
+1. client side web server
+```sh
+cd frontend && yarn install #install node modules
+npm start #start local web server
+```
 
 ## ./backend/ structure
 .
@@ -10,12 +15,12 @@
 │   ├── class.csv   **Class DB**  
 │   ├── coursework  **Coursework storage**  
 │   │   └── 202201  
-│   └── student.csv **Student DB**  
+│   └── student.csv **Student DB*$$*  
 ├── README.md  
 ├── backend       
 │   ├── DB.py   **DB proto**  
-│   ├── DB_Classes.py   **provide `classes` as db_class  **  
-│   ├── DB_Stu.py   - **provide `students`  **  
+│   ├── DB_Classes.py   **provide `classes` as db_class**  
+│   ├── DB_Stu.py   - **provide `students`**  
 │   ├── Server  **flask server**  
 │   │   ├── app.py   
 │   │   └── reverseProxy.py  
