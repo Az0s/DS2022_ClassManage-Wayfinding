@@ -30,6 +30,7 @@ const SchoolCalender = () => {
 
     const classes = [
         {
+            key: "1",
             name: "电子竞技科学与技术",
             weekday: "1",
             time: "8:00-10:30",
@@ -39,6 +40,8 @@ const SchoolCalender = () => {
             loc: "郑州市",
         },
         {
+            key: "2",
+
             name: "电子竞技科学与技术",
             weekday: "3",
             time: "8:00-10:30",
@@ -48,34 +51,12 @@ const SchoolCalender = () => {
             loc: "郑州市",
         },
         {
+            key: "3",
+
             name: "优雅男子",
             weekday: "2",
             time: "8:00-10:30",
             index: "1",
-            teacher: "吕卓生",
-            loc: "S101",
-        },
-        {
-            name: "优雅男子3",
-            weekday: "4",
-            time: "8:00-10:30",
-            index: "6",
-            teacher: "吕卓生",
-            loc: "S101",
-        },
-        {
-            name: "优雅男子3",
-            weekday: "5",
-            time: "8:00-10:30",
-            index: "4",
-            teacher: "吕卓生",
-            loc: "S101",
-        },
-        {
-            name: "优雅男子2",
-            weekday: "6",
-            time: "8:00-10:30",
-            index: "2",
             teacher: "吕卓生",
             loc: "S101",
         },

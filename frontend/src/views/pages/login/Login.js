@@ -1,6 +1,6 @@
 import React from "react";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import handleLogin from "./../../../handleLogin.js";
 import {
     CButton,
     CCard,
@@ -20,11 +20,34 @@ import { cilLockLocked, cilUser } from "@coreui/icons";
 import logo from "./../../../assets/brand/logoHorizontal.png";
 
 import { useDispatch, useSelector } from "react-redux";
+import apis from "./../../../apis";
 
 const Login = () => {
     const dispatch = useDispatch();
     const isLogged = useSelector((state) => state.isLogged);
 
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm();
+
+    // const onSubmit = async () => {
+    //     const loginFormData = new FormData();
+    //     loginFormData.append("username", formValue);
+    //     // TODO
+    // };
+
+    const onSubmit = async (data) => {
+        dispatch({
+            type: "set",
+            username: data.username,
+            password: data.password,
+        });
+        console.log(data.username);
+        // apis.getStudentInfo(data.username);
+    };
     return (
         <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
             <CContainer>
@@ -33,23 +56,25 @@ const Login = () => {
                         <CCardGroup>
                             <CCard className="p-4">
                                 <CCardBody>
-                                        <div>
-                                            <p>
-                                                <CImage
-                                                    src={logo}
-                                                    width={200}                                                    alt="Logo"
-                                                    />
-                                            </p>
-                                        </div>
-                                        <br/>
-                                                    <CForm>
-                                        <p className="text-medium-emphasis">
+                                    <div>
+                                        <p>
+                                            <CImage
+                                                src={logo}
+                                                width={200}
+                                                alt="Logo"
+                                            />
                                         </p>
+                                    </div>
+                                    <br />
+                                    <CForm onSubmit={handleSubmit(onSubmit)}>
+                                        <p className="text-medium-emphasis"></p>
                                         <CInputGroup className="mb-3">
                                             <CInputGroupText>
                                                 <CIcon icon={cilUser} />
                                             </CInputGroupText>
                                             <CFormInput
+                                                {...register("username")}
+                                                type="text"
                                                 placeholder="学号"
                                                 autoComplete="username"
                                             />
@@ -59,6 +84,7 @@ const Login = () => {
                                                 <CIcon icon={cilLockLocked} />
                                             </CInputGroupText>
                                             <CFormInput
+                                                {...register("password")}
                                                 type="password"
                                                 placeholder="密码"
                                                 autoComplete="current-password"
@@ -67,6 +93,7 @@ const Login = () => {
                                         <CRow>
                                             <CCol xs={6}>
                                                 <CButton
+                                                    type="submit"
                                                     color="primary"
                                                     className="px-4"
                                                     onClick={() => {

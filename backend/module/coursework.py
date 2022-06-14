@@ -1,16 +1,16 @@
 '''
 Date: 2022-04-07 22:28:19
 LastEditors: Azus
-LastEditTime: 2022-04-20 01:39:20
-FilePath: /DS/backend/coursework.py
+LastEditTime: 2022-06-13 17:43:51
+FilePath: /DS/backend/module/coursework.py
 '''
 import os
 import time
 import shutil
-import logger
+from .logger import logger 
 from debugpy import trace_this_thread
-from DB_Classes import classes
-from DB_Stu import students
+from .DB_Classes import classes
+from .DB_Stu import students
 import hashlib
 import zip as zp
 

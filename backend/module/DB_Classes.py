@@ -1,8 +1,8 @@
 '''
 Date: 2022-04-07 00:28:27
 LastEditors: Azus
-LastEditTime: 2022-04-19 21:04:28
-FilePath: /DS/backend/DB_Classes.py
+LastEditTime: 2022-06-14 19:52:20
+FilePath: /DS/backend/module/DB_Classes.py
 '''
 
 import pandas as pd
@@ -10,7 +10,8 @@ import threading
 import json
 import sys
 sys.path.append('..')
-from logger import logger
+from .logger import logger 
+
 
 
 
@@ -18,8 +19,9 @@ from logger import logger
 
 
 # Columns in classes.csv
+# ! feature: ifClass 
 COLUMNS = [
-    'ClassNumber', 'Time', 'Name', 'Location']
+    'ClassNumber', 'Time', 'Name',"classroom",  'Location',  'ifClass', "info" ]
 DB_PATH = '/Users/azus/Documents/Code/Py/DS/DB/class.csv'
 ENV='production'
 

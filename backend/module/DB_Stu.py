@@ -1,13 +1,13 @@
 '''
 Date: 2022-04-05 00:24:27
 LastEditors: Azus
-LastEditTime: 2022-04-16 15:40:30
-FilePath: /DS/backend/DB_Stu.py
+LastEditTime: 2022-06-14 16:58:36
+FilePath: /DS/users/azus/documents/code/py/ds/backend/module/DB_Stu.py
 '''
 
 import pandas as pd
 # StudentNumber, Gender, Name, Class
-from logger import logger
+from .logger import logger 
 # TODO Multi-threading
 # For sync lock
 import threading
@@ -84,9 +84,13 @@ class db_students(object):
     
     def to_string(self):   
         return self.df.to_string()
+    def to_json(self):   
+        return self.df.to_json()
     
     def query(self, studentNo:int)->pd.Series:  #query student by student number
         _target = pd.Series()
+        logger.info(f'QUERY STUDENT {studentNo}')
+
         return self.df.loc[int(studentNo)]
 
         # TODO

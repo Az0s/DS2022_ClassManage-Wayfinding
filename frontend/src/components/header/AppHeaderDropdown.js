@@ -1,8 +1,8 @@
 /*
  * @Date: 2022-04-10 19:05:17
  * @LastEditors: Azus
- * @LastEditTime: 2022-06-12 13:21:05
- * @FilePath: /coreui-free-react-admin-template/src/components/header/AppHeaderDropdown.js
+ * @LastEditTime: 2022-06-14 01:25:01
+ * @FilePath: /DS/frontend/src/components/header/AppHeaderDropdown.js
  */
 import React from 'react'
 import {
@@ -92,7 +92,7 @@ Tasks
         <CDropdownHeader className="bg-light fw-semibold py-2">
           设置
         </CDropdownHeader>
-        <CDropdownItem href="#">
+        <CDropdownItem href="/#/profile">
           <CIcon icon={cilUser} className="me-2" />
           个人资料
         </CDropdownItem>
@@ -115,7 +115,7 @@ Payments
           </CBadge>
         </CDropdownItem>
         <CDropdownDivider />
-        <CDropdownItem href="#">
+        <CDropdownItem href='/#/login/' onClick={()=>{dispatch({type: 'set', isLogged: false})}}>
           <CIcon icon={cilLockLocked} className="me-2" />
           安全退出
         </CDropdownItem>

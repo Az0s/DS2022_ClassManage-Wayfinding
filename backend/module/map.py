@@ -2,14 +2,15 @@
 Description:
 Author: Carl
 Date: 2022-06-11 15:09:39
-LastEditTime: 2022-06-12 22:19:38
-LastEditors: Carl
+LastEditTime: 2022-06-12 22:48:21
+LastEditors: Azus
 '''
 
 
 from collections import deque
 from json.encoder import INFINITY
 from re import S
+
 
 
 class map:
@@ -390,6 +391,7 @@ class map:
             self.method3_pf(returned_path,returned_adj)
             print('预估总耗时: {0}s'.format(returned_distance))
 
+    # 1 : min dis; 2: min time; 3 : min time with transport 
     def findPath(self,start:str,end:str,method:int):
         
         if(start[0:2] == '海淀' and end[0:2] == '海淀'):
@@ -510,8 +512,8 @@ def main():
 
     #m.findPath(start,end,method)
 
-    m.findPath('海淀南二教','海淀学一寝',1)
-    m.findPath('海淀南二教','海淀学一寝',2)
+    # m.findPath('海淀南二教','海淀学一寝',1)
+    # m.findPath('海淀南二教','海淀学一寝',2)
     m.findPath('海淀南二教','海淀学一寝',3)
 
     
