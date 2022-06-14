@@ -1,11 +1,11 @@
 # ClassManage-Wayfinding
-> Coursework of DataStructure of BUPT 2022. Created Apr 7 2022. Using on React with Redux and Python with Flask.
+> Coursework of DataStructure of BUPT 2022. Created Apr 7 2022. Dev on React with Redux and Python with Flask.
 
 
 ## How to start
 1. client side web server
 ```sh
-cd frontend && yarn install #install node modules
+cd frontend && npm install #install node modules
 npm start #start local web server
 ```
 
@@ -44,7 +44,7 @@ npm start #start local web server
 
 
 ## TODO
-单个课程展示界面（资料？）
+1. 单个课程展示界面（资料？）
 
 > 课程信息？【课程资料、当前进度、已交作业、待交作业、课程群、考试时间和考试地点等信息】）
 作业（是否已交）

@@ -1,14 +1,16 @@
 '''
 Date: 2022-04-05 00:24:27
 LastEditors: Azus
-LastEditTime: 2022-06-14 16:58:36
+LastEditTime: 2022-06-15 03:23:43
 FilePath: /DS/users/azus/documents/code/py/ds/backend/module/DB_Stu.py
 '''
 
 import pandas as pd
 # StudentNumber, Gender, Name, Class
-from .logger import logger 
+from logger import logger 
 # TODO Multi-threading
+import json
+
 # For sync lock
 import threading
 import numpy
@@ -27,7 +29,7 @@ import numpy
 
 # Columns in student.csv
 COLUMNS = [
-    'StudentNumber', 'Gender', 'Name', 'Class']
+    'StudentNumber', 'Gender', 'Name', 'Event']
 DB_PATH = '/Users/azus/Documents/Code/Py/DS/DB/student.csv'
 ENV='production'
 
@@ -60,11 +62,18 @@ class db_students(object):
         self.df = pd.concat([self.df, new_stu])
         self.save()
         logger.info(f'NEW STUDENT ADDED:{self.df.loc[studentInfo[0][0]]["Name"]}')
-    
-    def updateClass(self, student: int, classes: list) -> bool: # add class info to a student 
+        
+    def add_event(self, student: int, new_event: list) -> bool: # add class info to a student 
         self.load()
         try:
-            self.df.loc[student]['Class'] = classes
+            # self.df.loc[student]['Class'] = classes
+            # df 读出来的内容为string，用json转化为list
+            print(self.df.loc[student]['Event'])
+            event=  json.loads(self.df.loc[student]['Event'])
+            # print(type(ori_event))
+            event.extend(new_event)
+            self.df.loc[student]['Event'] = f'{event}'
+        
         except KeyError:
             return False
         self.save()
@@ -146,6 +155,11 @@ students = db_students(DB_PATH)
 # Testrun if run as main 
 if __name__ == '__main__':
     # CLI(students)
-    students.get_db_as_list()
+
+
+    # students.get_db_as_list()
+    students.add_event(2020211554, [202251])
+    
+
 
     

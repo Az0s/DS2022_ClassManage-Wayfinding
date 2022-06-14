@@ -1,11 +1,11 @@
 '''
 Date: 2022-04-16 15:13:07
 LastEditors: Azus
-LastEditTime: 2022-06-13 17:44:18
+LastEditTime: 2022-06-14 20:36:45
 FilePath: /DS/backend/module/DB.py
 '''
 import pandas as pd
-from .logger import logger 
+from logger import logger 
 
 class db(object):   ## proto 
     def __init__(self, DB_PATH): # Load student DB

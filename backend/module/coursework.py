@@ -1,16 +1,16 @@
 '''
 Date: 2022-04-07 22:28:19
 LastEditors: Azus
-LastEditTime: 2022-06-13 17:43:51
+LastEditTime: 2022-06-14 21:37:23
 FilePath: /DS/backend/module/coursework.py
 '''
 import os
 import time
 import shutil
-from .logger import logger 
+from logger import logger 
 from debugpy import trace_this_thread
-from .DB_Classes import classes
-from .DB_Stu import students
+from DB_Classes import classes
+from DB_Stu import students
 import hashlib
 import zip as zp
 
@@ -26,6 +26,18 @@ def isDirExist(classNo)->bool:    #Make sure class dir exists. ret False if exis
     return True
 
 def submit_work(studentNo:int, classNo:int, coursework_path, name:str)->bool:
+    """submit student work, auto compressed 
+
+    Args:
+        studentNo (int): student number     
+        classNo (int): class number 
+        coursework_path (_type_): the absolute path of the work you wanted to upload 
+        name (str): work name 
+
+    Returns:
+        bool: if success 
+    """
+
     # if(classes.query())
     isDirExist(classNo)
     classpath=COURSEWORK_FOLDER+str(classNo)
@@ -49,7 +61,7 @@ def submit_work(studentNo:int, classNo:int, coursework_path, name:str)->bool:
                     return False
     
     zip(coursework_path, student_folder, submit_date+"_"+filehash+os.path.splitext(coursework_path)[-1])
-    logger.logger.info(f'{studentNo} uploaded {name} to class {classNo}.')
+    logger.info(f'{studentNo} uploaded {name} to class {classNo}.')
 
 
 def hash_file(file_path, Bytes=1024):    # ret hex hash of file
@@ -83,7 +95,10 @@ if __name__ == "__main__":
     # print(submit_work(2020211550, 202201, "/Users/azus/Documents/Code/Py/DS/EXAMPLE.png", "example" ))
     # print(students.df.to_string())
     # print(classes.df.to_string())
-    zp.decompress('/Users/azus/Documents/Code/Py/DS/DB/coursework/202201/2020211550/2022040138_b535.png', '/Users/azus/Documents/Code/Py/DS/exp.png')
+    # zp.decompress('/Users/azus/Documents/Code/Py/DS/DB/coursework/202201/2020211550/2022040138_b535.png', '/Users/azus/Documents/Code/Py/DS/exp.png')
+    logger.info(f"test info")
+
+    
     
 
     

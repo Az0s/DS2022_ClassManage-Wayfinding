@@ -2,7 +2,7 @@
 Description:
 Author: Carl
 Date: 2022-06-11 15:09:39
-LastEditTime: 2022-06-12 22:48:21
+LastEditTime: 2022-06-14 21:45:12
 LastEditors: Azus
 '''
 
@@ -391,13 +391,19 @@ class map:
             self.method3_pf(returned_path,returned_adj)
             print('预估总耗时: {0}s'.format(returned_distance))
 
-    # 1 : min dis; 2: min time; 3 : min time with transport 
+
     def findPath(self,start:str,end:str,method:int):
-        
+        """main function of finding path
+
+        Args:
+            start (str): start point, strict string pairing 
+            end (str): end point, strict string pairing 
+            method (int): path-finding strategy:
+            1 : min dis; 2: min time; 3 : min time with transport 
+        """
         if(start[0:2] == '海淀' and end[0:2] == '海淀'):
             self.printPath(start,end,1,method)
             
-
         if(start[0:2] == '沙河' and end[0:2] == '沙河'):
             self.printPath(start,end,2,method)
 

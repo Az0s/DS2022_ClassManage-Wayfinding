@@ -1,7 +1,7 @@
 '''
 Date: 2022-04-07 00:28:27
 LastEditors: Azus
-LastEditTime: 2022-06-14 19:52:20
+LastEditTime: 2022-06-15 03:53:21
 FilePath: /DS/backend/module/DB_Classes.py
 '''
 
@@ -10,7 +10,7 @@ import threading
 import json
 import sys
 sys.path.append('..')
-from .logger import logger 
+from logger import logger 
 
 
 
@@ -20,8 +20,9 @@ from .logger import logger
 
 # Columns in classes.csv
 # ! feature: ifClass 
-COLUMNS = [
-    'ClassNumber', 'Time', 'Name',"classroom",  'Location',  'ifClass', "info" ]
+# !modify csv 
+COLUMNS = [ 
+    'EventNumber', 'Name', 'Time_Begin', 'Location', 'Num',"classroom",  'ifClass', "info",'Time_End','Day' , 'index']
 DB_PATH = '/Users/azus/Documents/Code/Py/DS/DB/class.csv'
 ENV='production'
 
@@ -40,7 +41,7 @@ class db_classes(object):
             self.df = pd.read_csv(self.save_path)
         except pd.errors.EmptyDataError:
            self.df = pd.DataFrame(columns=COLUMNS)
-        self.df = self.df.set_index('ClassNumber')
+        self.df = self.df.set_index('EventNumber')
         logger.info(f'CLASSES DB LOADED')
 
     def save(self):
@@ -84,12 +85,61 @@ class db_classes(object):
         return classid
     def to_string(self):
         return self.df.to_string()
+    def add_info(self, eventNo: int, new_info: dict) -> bool: 
+        """add new info to the event  
+
+        Args:
+            eventNo (int): event no 
+            new_info (dict): new info 
+
+        Returns:
+            bool: success 
+        """        
+        self.load()
+        try:
+            eventNo = int(eventNo)
+            # self.df.loc[student]['Class'] = classes
+            # df 读出来的内容为string，用json转化为list
+            info=  json.loads(self.df.loc[eventNo]['info'])
+            # print(type(ori_event))
+            info.update(new_info)
+            self.df.loc[eventNo,'info'] = f'{info}'
+            # self.df.loc[eventNo, 'info'] = info
+            ori = self.df.loc[eventNo, 'info']
+
+        
+        except KeyError:
+            return False
+        
+        
+        self.save()
+        logger.info(f"Add info for {eventNo} Successful")
+        return True
+    def get_data(self, eventNo:int, dataName:str) -> dict:
+        self.load()
+        try:
+            eventNo = int(eventNo)
+            # self.df.loc[student]['Class'] = classes
+            # df 读出来的内容为string，用json转化为list
+            if(dataName=='info'):
+                info=  json.loads(self.df.loc[eventNo]['info'])
+            # print(type(ori_event))
+            else:
+                data=  json.loads(self.df.loc[eventNo][dataName])
+                info = {
+                    dataName:data,
+                }
+        except KeyError:
+            return False
+        logger.info(f"get info for {eventNo} Successful")
+        return info
     
 classes = db_classes(DB_PATH)
 
 if __name__ == "__main__":
-    print(classes.to_string())
-    classes.add([[202201, "MON0800", "MATH", 0000]])
 
-    
-    
+    print(classes.df.to_json(orient = 'records' , force_ascii=False))
+    # classes.add([[202201, "MON0800", "MATH", 0000]])
+    # print(classes.query(202201).to_string())
+
+

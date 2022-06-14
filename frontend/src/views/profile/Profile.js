@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-06-14 01:26:25
  * @LastEditors: Azus
- * @LastEditTime: 2022-06-14 17:36:00
+ * @LastEditTime: 2022-06-15 04:13:39
  * @FilePath: /DS/frontend/src/views/profile/Profile.js
  */
 import React, { useState, useEffect} from "react";
@@ -23,7 +23,7 @@ const Profile = () => {
     
   useEffect(() => {
       axios
-          .post(REMOTE_URL + "api/student/", data, {
+          .post(REMOTE_URL + "api/classes/", data, {
               headers: { "Access-Control-Allow-Origin": "*" },
           })
           .then((data) => {
@@ -37,18 +37,16 @@ const Profile = () => {
 
     console.log("profile set");
     console.log(info);
+
+    // return( <div>username: {info.json}</div>)
+
     if(false==isOK){
       return (<>
             <CSpinner color="primary" />
         </>)
     }
 
-    // return( <div>username: {info.json}</div>)
-    return (
-        <CCard>
-           {info.data} 
-        </CCard>
-    );
+    return <div>{info}</div>;
 };
 
 export default Profile;

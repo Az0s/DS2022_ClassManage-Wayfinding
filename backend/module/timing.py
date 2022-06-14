@@ -1,22 +1,29 @@
 '''
 Date: 2022-04-15 19:06:50
 LastEditors: Azus
-LastEditTime: 2022-05-24 16:53:15
-FilePath: /DS/backend/timing.py
+LastEditTime: 2022-06-15 01:37:49
+FilePath: /DS/backend/module/timing.py
 '''
+from ast import arg
 from calendar import week
-from threading import local
+from datetime import datetime
+from threading import local, Timer
+import threading
 import time
+import datetime 
 import os
 import json
 
 # [m.start() for m in re.finditer('test', 'test test test test')]
 FMT_FORMAT='%Y-%m-%d-%H:%M-%a'
 STD_TIME = '2022-08-01-00:00-Mon'
+'''
+time.struct_time(tm_year=2016, tm_mon=4, tm_mday=7, 
+tm_hour=10, tm_min=3, tm_sec=27, tm_wday=3, 
+tm_yday=98, tm_isdst=0)
+'''
 
-def get_time_string(weekday=1, hour=00, minute=00):
-    Week_dic=['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    return "{0}{1}-{2:0>2d}-{3}".format(STD_TIME[:9], weekday, hour, Week_dic[weekday])
+
     
 class timer(object):
     def __init__(self):
@@ -56,16 +63,37 @@ class timer(object):
             fp.seek(0)
             fp.truncate()
         self.load()
-    # @return 当前虚拟时间戳
+    def strptime(self, time:str):
+        """get time string and convert to time tuple
+
+        Args:
+            time (str): seting 
+
+        Returns:
+            _type_: time tuple
+        """
+        return time.strptime(time,FMT_FORMAT)
+
+    def get_next_event_time(self, weekday=1, hour=00, minute=00):
+        Week_dic=['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        now_year = self.get_time_str()[0:4]
+        now_day = self.get_time_str()[8:10]
+        now_month= self.get_time_str()[5:7]
+        print(now_month)
+        dt = datetime.datetime.strptime()
+        return "{0}{1}-{2:0>2d}-{3}".format(STD_TIME[:9], weekday, hour, Week_dic[weekday])
+
+    # @return 当前虚拟时    
     def get_time_secs(self):
         crt_secs=time.time()
         secs_passed= crt_secs-self.init_stamp_secs
-        virtual_secs=self.last_virtual_time+(secs_passed)*self.deltaT
+        virtual_secs=self.last_virtual_time+secs_passed*float(self.deltaT)
         return virtual_secs
 
     def get_time_str(self):
         time_tuple=time.localtime(self.get_time_secs())
         return time.strftime(FMT_FORMAT, time_tuple)
+        
     # @breif 设置当前deltaT: 每真实世界一秒虚拟时间增加量
     def setdeltaT(self, deltaT):
         # memorize virtual time
@@ -73,24 +101,51 @@ class timer(object):
         self.init_stamp_secs=time.time()
         self.init_stamp_tuple=time.localtime(self.init_stamp_secs)
         # reset deltaT
-        self.deltaT=deltaT
+        self.deltaT=float(deltaT)
         # save seltaT settings
         self.save()
         pass
+
+    def setAlarm(self, year, month, day:int, hour, minute,  info:str):
+        setTime = time.strptime(f'{year}-{month}-{day}-{hour}-{minute}', "%Y-%m-%d-%H-%M")
+        interval = time.mktime(setTime) - self.get_time_secs()
+        print(interval)
+        # Timer(interval, lambda:print(f"Timer: {info}")).start()
+        thread = threading.Thread(target=self.handleAlarm, args=[setTime, info])
+        thread.start()
+
+    def handleAlarm(self,setTime, info):
+        while(1):
+            time.sleep(1)
+            if(time.mktime(setTime) - self.get_time_secs()<=0):
+                # ! modify alarm behavior 
+                print(f"Timer: {info}")
+                break
+                
+        
  
 if __name__ == "__main__":
     # 初始化
     
     timer = timer()
-    
     # 重制
+
+    timer.reset()
     # timer.reset()
 
     # 设置虚拟时间
-    timer.setdeltaT(1)
+
     
     print(timer.get_time_str())
-    print(timer.get_time_secs())
+    
+    timer.setAlarm("2022", "06", "15", "01", "21", "Fucking alarm")
+    timer.setdeltaT(10)
+
+    while(1):
+        print(timer.get_time_str())
+        time.sleep(1)
+    # print(timer.get_time_secs())
+
 
 
 

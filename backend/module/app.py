@@ -1,17 +1,19 @@
 '''
 Date: 2022-03-26 16:39:12
 LastEditors: Azus
-LastEditTime: 2022-06-14 17:00:40
-FilePath: /DS/backend/app.py
+LastEditTime: 2022-06-15 04:12:44
+FilePath: /DS/backend/module/app.py
 '''
 
 import os
 
-from flask import Flask, render_template, request, jsonify, make_response
+from flask import Flask, render_template, request, jsonify
 from reverseProxy import proxyRequest
-from handleStudents import handleStudents
+from interface import apis
 
+import sys
 
+sys.path.append("/Users/azus/Documents/Code/Py/DS/backend/module")
 
 MODE = os.getenv('FLASK_ENV')
 # dest for reverse proxy
@@ -21,7 +23,7 @@ DEV_SERVER_URL = 'http://localhost:3000/'
 MODE = 'development'
 
 app = Flask(__name__, static_folder='../../frontend/build/static', template_folder='../../frontend/build')
-
+api = apis()
 # Ignore static folder in development mode.
 if MODE == "development":
     app = Flask(__name__, static_folder=None)
@@ -52,9 +54,22 @@ def api_student():
     #     "from_data": f'{form_data}',
     #     "json": f'{json}'
     # }
-    data= {
-        "data": handleStudents(4, (json["username"]))}
+    data= {}
     print(json["username"])
+    # response = make_response(jsonify(data))
+    # response.headers['Access-Control-Allow-Origin'] = '*'
+    # print(response)
+    return jsonify(data), 200, [("Access-Control-Allow-Origin", "*")]
+    # handleStudents
+@app.route('/api/classes/', methods=['POST', 'GET'])
+def api_classes():
+    # form_data = request.form
+    json = request.json
+    # data ={
+    #     "from_data": f'{form_data}',
+    #     "json": f'{json}'
+    # }
+    data= api.get_classes()
     # response = make_response(jsonify(data))
     # response.headers['Access-Control-Allow-Origin'] = '*'
     # print(response)

@@ -1,7 +1,7 @@
 '''
 Date: 2022-06-13 16:46:24
 LastEditors: Azus
-LastEditTime: 2022-06-14 17:02:06
+LastEditTime: 2022-06-15 03:04:08
 FilePath: /DS/backend/handleStudents.py
 '''
 from module import DB_Stu as stu

@@ -2,14 +2,15 @@
 Description: 
 Author: Carl
 Date: 2022-04-18 19:58:12
-LastEditTime: 2022-04-18 21:20:43
-LastEditors: Carl
+LastEditTime: 2022-06-15 03:24:32
+LastEditors: Azus
 '''
 
 
 import pandas as pd
-
-DB_PATH_CLASS = 'E:\DS2022_ClassManage-Wayfinding\DB\class.csv'
+from  DB_Stu import students
+DB_PATH_CLASS = '/Users/azus/Documents/Code/Py/DS/DB/class.csv'
+DB_PATH_STU = '/Users/azus/Documents/Code/Py/DS/DB/student.csv'
 
 # @use: Hash for search        
 class HashTable:
@@ -35,8 +36,8 @@ class HashTable:
                 return 0
         return (self.elem[address][1] + 1)
 
-def get_db_as_list()->list: # ret df as list
-    df = pd.read_csv(DB_PATH_CLASS)
+def get_db_as_list(DB_PATH)->list: # ret df as list
+    df = pd.read_csv(DB_PATH)
     # data as array(numpy.ndarray)
     ary = df.values
     return ary
@@ -71,11 +72,14 @@ def Course_Inquiry(hash_name:HashTable,hash_time:HashTable,list:list):
                 print("No such course found")
             else:
                 loc -= 1
-                print("Course Number:%d"%(list[loc][0]))
-                print("Course Name:%s"%(list[loc][1]))
-                print("Course Time:%s"%(list[loc][2]))
-                print("Course Location:%s"%(list[loc][3]))
-                print("Course selection:%d"%(list[loc][4]))
+                if list[loc][6] == 1:
+                    print("Course Number:%d"%(list[loc][0]))
+                    print("Course Name:%s"%(list[loc][1]))
+                    print("Course Time:%s"%(list[loc][2][1:3]) + "点" + "%s"%(list[loc][2][3:5]))
+                    print("Course Location:%s"%(list[loc][3]))
+                    print("Course selection:%d"%(list[loc][4]))
+                    print("Course Classroom:%s"%(list[loc][5]))
+                    print("Course Information:%s"%(list[loc][7]))
         elif pat == '2':
             str = input("Enter time:")
             loc = hash_time.search_hash(str)
@@ -83,11 +87,14 @@ def Course_Inquiry(hash_name:HashTable,hash_time:HashTable,list:list):
                 print("No such course found")
             else:
                 loc -= 1
-                print("Course Number:%d"%(list[loc][0]))
-                print("Course Name:%s"%(list[loc][1]))
-                print("Course Time:%s"%(list[loc][2]))
-                print("Course Location:%s"%(list[loc][3]))
-                print("Course selection:%d"%(list[loc][4]))
+                if list[loc][6] == 1:
+                    print("Course Number:%d"%(list[loc][0]))
+                    print("Course Name:%s"%(list[loc][1]))
+                    print("Course Time:%s"%(list[loc][2][1:3]) + "点" + "%s"%(list[loc][2][3:5]))
+                    print("Course Location:%s"%(list[loc][3]))
+                    print("Course selection:%d"%(list[loc][4]))
+                    print("Course Classroom:%s"%(list[loc][5]))
+                    print("Course Information:%s"%(list[loc][7]))                
         pat = input(f'1: search by name 2: search by time q:Return\n')
 
 #quicksort
@@ -126,16 +133,85 @@ def Course_sort(List:list):
     if pat == '1':
         quickSort(list,0,len(list)-1)
         for i in range(0,len(list)):
-            print("%s : %d students selected"%(list[i][1],list[i][4]))
+            if list[i][6] == 1:
+                print("%s : %d students selected"%(list[i][1],list[i][4]))
     elif pat == '2':
         arr_sorted = []
         for i in range(0,len(list)):
-            arr_sorted.append(list[i][1])
+            if list[i][6] == 1:
+                arr_sorted.append(list[i][1])
         arr_sorted.sort()
         for name in arr_sorted:
-            print(name)
-        
-        
+                print(name)
+
+def Activity_Inquiry(hash_name:HashTable,hash_time:HashTable,list:list):
+    pat = input(f'1: search by name 2: search by time q:Return\n')
+    while(pat != 'q'):
+        if pat == '1':
+            str = input("Enter name:")
+            loc = hash_name.search_hash(str)
+            if loc == 0:
+                print("No such activity found")
+            else:
+                loc -= 1
+                if list[loc][6] == 0:
+                    print("Activity Number:%d"%(list[loc][0]))
+                    print("Activity Name:%s"%(list[loc][1]))
+                    print("Activity Time:%s"%(list[loc][2][1:3]) + "点" + "%s"%(list[loc][2][3:5]))
+                    print("Activity Location:%s"%(list[loc][3]))
+                    print("Activity selection:%d"%(list[loc][4]))
+                    print("Activity Classroom:%s"%(list[loc][5]))
+                    print("Activity Information:%s"%(list[loc][7]))
+        elif pat == '2':
+            str = input("Enter time:")
+            loc = hash_time.search_hash(str)
+            if loc == 0:
+                print("No such activity found")
+            else:
+                loc -= 1
+                if list[loc][6] == 0:
+                    print("Activity Number:%d"%(list[loc][0]))
+                    print("Activity Name:%s"%(list[loc][1]))
+                    print("Activity Time:%s"%(list[loc][2][1:3]) + "点" + "%s"%(list[loc][2][3:5]))
+                    print("Activity Location:%s"%(list[loc][3]))
+                    print("Activity selection:%d"%(list[loc][4]))
+                    print("Activity Classroom:%s"%(list[loc][5]))
+                    print("Activity Information:%s"%(list[loc][7]))                
+        pat = input(f'1: search by name 2: search by time q:Return\n')
+
+
+
+
+def Activity_sort(List:list):
+    list = List.copy()
+    print("Choose the way of sorting")
+    pat = input(f'1: sort by number 2: sort by name 3: skip\n')
+    if pat == '1':
+        quickSort(list,0,len(list)-1)
+        for i in range(0,len(list)):
+            if list[i][6] == 0:
+                print("%s : %d students selected"%(list[i][1],list[i][4]))
+    elif pat == '2':
+        arr_sorted = []
+        for i in range(0,len(list)):
+            if list[i][6] == 0:
+                arr_sorted.append(list[i][1])
+        arr_sorted.sort()
+        for name in arr_sorted:
+                print(name)
+
+
+
+
+def SelectCourse(ID):
+    CourseNo = input("Enter the course number you want to select:")
+    students.add_event(ID,[int(CourseNo)])
+
+
+def Addactivity(ID):
+    ActivityNo = input("Enter the activity number you want to select:")
+    students.add_event(ID,[int(ActivityNo)])
+
 def CLI_STU():
 #login
     try:
@@ -145,7 +221,8 @@ def CLI_STU():
         ID = int(input("Type your ID:"))
     
 #read class.csv into list    
-    Info_Cou = get_db_as_list()
+    Info_Cou = get_db_as_list(DB_PATH_CLASS)
+    Info_STU = get_db_as_list(DB_PATH_STU)
 
 #search_by_name
     #convert to Ascii
@@ -191,5 +268,5 @@ def CLI_STU():
 # Testrun if run as main 
 if __name__ == '__main__':
     OP_LEV0 = input(f'A: Admin U: User\n')
-    if OP_LEV0 == 'U':
+    if OP_LEV0 == 'U':  
         CLI_STU()
