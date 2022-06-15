@@ -35,11 +35,11 @@ const _nav = [
     {
         component: CNavItem,
         name: "寻路",
-        to: "/#",
+        to: "/navigate",
         icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
         badge: {
             color: "info",
-            text: "COMING SOON",
+            text: "NEW",
         },
     },
     {
@@ -73,7 +73,7 @@ const _nav = [
     {
         component: CNavItem,
         name: "课程信息",
-        to: "/charts",
+        to: "/classes",
         icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
     },
     {

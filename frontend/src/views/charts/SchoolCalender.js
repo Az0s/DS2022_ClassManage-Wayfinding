@@ -28,6 +28,13 @@ import { useDispatch, useSelector } from "react-redux";
 const SchoolCalender = () => {
     const isLogged = useSelector((state) => state.isLogged);
     const dispatch = useDispatch();
+    const updateClass = (classes) => {
+        dispatch({
+            type: "set",
+            classesinfo: classes,
+        });
+    };
+
 
     const weekdays = ["周一", "周二", "周三", "周四", "周五", "周六", "周天"];
     const classes = [
@@ -298,9 +305,11 @@ const SchoolCalender = () => {
             })
             .then((data) => {
                 console.log("return data");
-                console.log(data.data.json);
                 // returned as html
-                setInfo(data.data);
+                console.log(data.data);
+                setInfo(JSON.parse(data.data));
+                console.log(info);
+                updateClass(JSON.parse(data.data));
                 setOK(true);
             });
     }, []);
@@ -315,7 +324,7 @@ const SchoolCalender = () => {
 
     const [timetable, setTimetable] = useState([[], [], [], [], [], [], []]);
 
-    const updateTimetable = () => {
+    const getrows = (classes) => {
         let rows = [[], [], [], [], [], []];
         let a = 1;
         let day = 1;
@@ -363,19 +372,20 @@ const SchoolCalender = () => {
                                                 </CCardTitle>
                                                 <CCardSubtitle className="mb-2 text-medium-emphasis">
                                                     <font size="2">
-                                                        {subItem.Time_Begin}
+                                                        {subItem.EventNumber}
                                                     </font>
                                                 </CCardSubtitle>
                                                 <CCardText>
                                                     <font size="2">
                                                         {subItem.Location}
                                                     </font>
-                                                    <br />
                                                     <font size="2">
                                                         {subItem.classroom}
                                                     </font>
-
                                                     <br />
+                                                    <font size='1'>
+                                                        {subItem.Time_Begin}-{subItem.Time_End}
+                                                    </font>
                                                 </CCardText>
                                             </CCardBody>
                                         </CCard>
@@ -405,13 +415,13 @@ const SchoolCalender = () => {
                             <div align="right">
                                 <CButton
                                     onClick={() => {
-                                        setTimetable(updateTimetable());
+                                        setTimetable(getrows(info));
                                     }}
                                     color="light"
                                     size="sm"
                                 >
                                     <font size="1" color="grey">
-                                        刷新
+                                        同步课程
                                     </font>
                                 </CButton>
                             </div>

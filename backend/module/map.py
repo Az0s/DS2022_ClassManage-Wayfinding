@@ -2,7 +2,7 @@
 Description:
 Author: Carl
 Date: 2022-06-11 15:09:39
-LastEditTime: 2022-06-14 21:45:12
+LastEditTime: 2022-06-15 12:14:37
 LastEditors: Azus
 '''
 
@@ -391,6 +391,30 @@ class map:
             self.method3_pf(returned_path,returned_adj)
             print('预估总耗时: {0}s'.format(returned_distance))
 
+    def GetPathStr(self,start:str,end:str,campus:int,method:int):
+        ret = ''
+        # print(start)
+        # print(end)
+        # print(campus)
+
+        if method == 1:
+            returned_path, returned_distance = self.dijkstra(start,end,campus,method)
+            ret = ret +'目的地，终点: {0} -> {1}\n'.format(start, end)
+            ret = ret +'距离最短路径: {0}\n'.format(self.toString(returned_path))
+            ret = ret +'距离: {0}m \n'.format(returned_distance)
+
+        elif method == 2:
+            returned_path, returned_distance = self.dijkstra(start,end,campus,method)
+            ret = ret +'目的地，终点: {0} -> {1}\n'.format(start, end)
+            ret = ret +'时间最短路径: {0}\n'.format(self.toString(returned_path))
+            ret = ret +'步行预估耗时: {0}s \n'.format(returned_distance)
+
+        elif method == 3:
+            returned_path,returned_adj, returned_distance = self.dijkstra(start,end,campus,method)
+            ret = ret +'目的地，终点: {0} -> {1} \n'.format(start, end)
+            self.method3_pf(returned_path,returned_adj)
+            ret = ret +'预估总耗时: {0}s \n'.format(returned_distance)
+        return ret
 
     def findPath(self,start:str,end:str,method:int):
         """main function of finding path
@@ -409,13 +433,43 @@ class map:
 
         if(start[0:2] == '海淀'  and end[0:2] == '沙河'):
             self.printPath(start,'海淀车站',1,method)
-            print('\n' + '目的地，终点: {0} -> {1}'.format('海淀车站','沙河车站') + '\n')
+            # print('\n' + '目的地，终点: {0} -> {1}'.format('海淀车站','沙河车站') + '\n')
             self.printPath('沙河车站',end,2,method)
 
         if(start[0:2] == '沙河'  and end[0:2] == '海淀'):
             self.printPath(start,'沙河车站',2,method)
             print('\n' + '目的地，终点: {0} -> {1}'.format('沙河车站','海淀车站') + '\n')            
             self.printPath('海淀车站',end,1,method)
+    def get_str_Path(self,start:str,end:str,method:int):
+        """main function of finding path
+
+        Args:
+            start (str): start point, strict string pairing 
+            end (str): end point, strict string pairing 
+            method (int): path-finding strategy:
+            1 : min dis; 2: min time; 3 : min time with transport 
+        """
+        ret =""
+        if(start[0:2] == '海淀' and end[0:2] == '海淀'):
+            ret = ret + self.GetPathStr(start,end,1,method)
+            
+        if(start[0:2] == '沙河' and end[0:2] == '沙河'):
+            ret = ret + self.GetPathStr(start,end,2,method)
+
+        if(start[0:2] == '海淀'  and end[0:2] == '沙河'):
+            ret = ret + self.GetPathStr(start,'海淀车站',1,method)
+            # print(self.GetPathStr(start,'海淀车站',1,method))
+            ret = ret +('\n' + '目的地，终点: {0} -> {1}'.format('海淀车站','沙河车站') + '\n')
+            ret = ret + self.GetPathStr('沙河车站',end,2,method)
+            # print(self.GetPathStr('沙河车站',end,2,method))
+
+        if(start[0:2] == '沙河'  and end[0:2] == '海淀'):
+            ret = ret + self.GetPathStr(start,'沙河车站',2,method)
+            ret = ret +('\n' + '目的地，终点: {0} -> {1}'.format('沙河车站','海淀车站') + '\n')            
+            ret = ret + self.GetPathStr('海淀车站',end,1,method)
+        # print(f"get_str_path {ret}")
+        print(ret)
+        return ret
 
 
     def method_3(self,arc:list):
@@ -520,7 +574,16 @@ def main():
 
     # m.findPath('海淀南二教','海淀学一寝',1)
     # m.findPath('海淀南二教','海淀学一寝',2)
-    m.findPath('海淀南二教','海淀学一寝',3)
+    # m.findPath('海淀南二教','海淀学一寝',3)
+    # print(m.GetPathStr("沙河车站", "沙河南教学楼", 2, 1))
+
+    # data ={
+    #     "from_data": f'{form_data}',
+    #     "json": f'{json}'
+    # }
+    # print(json)
+    # print(json["departure"])
+    result = m.get_str_Path("沙河车站", "沙河南教学楼", 1)
 
     
 

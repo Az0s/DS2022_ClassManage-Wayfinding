@@ -1,7 +1,7 @@
 '''
 Date: 2022-04-07 00:28:27
 LastEditors: Azus
-LastEditTime: 2022-06-15 03:53:21
+LastEditTime: 2022-06-15 12:46:48
 FilePath: /DS/backend/module/DB_Classes.py
 '''
 
@@ -43,6 +43,11 @@ class db_classes(object):
            self.df = pd.DataFrame(columns=COLUMNS)
         self.df = self.df.set_index('EventNumber')
         logger.info(f'CLASSES DB LOADED')
+    def to_json(self):
+
+        df = pd.read_csv(self.save_path)
+        return df.to_json(orient = 'records' , force_ascii=False)
+
 
     def save(self):
         if ENV in 'production':
@@ -138,7 +143,7 @@ classes = db_classes(DB_PATH)
 
 if __name__ == "__main__":
 
-    print(classes.df.to_json(orient = 'records' , force_ascii=False))
+    print(classes.to_json())
     # classes.add([[202201, "MON0800", "MATH", 0000]])
     # print(classes.query(202201).to_string())
 

@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-06-14 01:26:25
  * @LastEditors: Azus
- * @LastEditTime: 2022-06-15 04:58:44
+ * @LastEditTime: 2022-06-15 13:02:51
  * @FilePath: /DS/frontend/src/views/profile/Profile.js
  */
 import React, { useState, useEffect } from "react";
@@ -13,6 +13,7 @@ import {
     CCol,
     CCard,
     CCardBody,
+    CSpinner,
     CCardTitle,
     CCardSubtitle,
     CButton,
@@ -60,25 +61,26 @@ const Profile = () => {
     const dispatch = useDispatch();
     const username = useSelector((data) => data.username);
     let data = {
-        username: username,
     };
 
     useEffect(() => {
         axios
-            .post(REMOTE_URL + "api/classes/", data, {
+            .post(REMOTE_URL + "api/student/", data, {
                 headers: { "Access-Control-Allow-Origin": "*" },
             })
             .then((data) => {
                 console.log("return data");
-                console.log(data.data.json);
+                console.log(data.data);
                 // returned as html
-                setInfo(data.data);
+                setInfo(JSON.parse(data.data));
+                console.log(info)
                 setOK(true);
             });
     }, []);
 
     console.log("profile set");
     console.log(info);
+
     const students = [
         {
             StudentNumber: "2020211554",
@@ -129,7 +131,9 @@ const Profile = () => {
                     </CTableRow>
                 </CTableHead>
                 <CTableBody>
-                    {students.map((item, index) => (
+                    
+                    {isOK?
+                        info.map((item, index) => (
                         <CTableRow v-for="item in tableItems" key={index}>
                             <CTableDataCell></CTableDataCell>
 
@@ -146,10 +150,12 @@ const Profile = () => {
                                 <div className="small text-medium-emphasis">
                                     Event number
                                 </div>
-                                <strong>{item.Event[0]} {item.Event[1]} </strong>
+                                <strong>{item.Event.toString()} </strong>
                             </CTableDataCell>
                         </CTableRow>
-                    ))}
+                    ))
+                :<CSpinner color="primary" />
+                }
                 </CTableBody>
             </CTable>
         </div>

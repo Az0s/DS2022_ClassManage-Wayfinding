@@ -2,7 +2,7 @@
 Description: 
 Author: Carl
 Date: 2022-06-14 20:09:13
-LastEditTime: 2022-06-15 09:42:33
+LastEditTime: 2022-06-15 10:17:38
 LastEditors: Azus
 '''
 import user 
@@ -200,7 +200,7 @@ def Interface():
                     year, month, day, hour, minute, info= map(str, input("input year, month, day, hour, minute, info\ne.g.. 2022,06,15,3,49,info\n").split(','))
                     recur = input(f"set if recur\n0: Single Timer\n1:Daily Timer\n2:Weekly Timer")
                     # print(f'{year}, {minute}')
-                    timer.setAlarm(year, month, day, hour, minute, info, recur)
+                    timer.setAlarm(year, month, day, hour, minute, info, int(recur))
                     
                 OP_LEV2_2 = input(f'1: Inquiry 2: Add Activity  3: Set Clock  q: Return\n')
             
@@ -250,7 +250,7 @@ def Interface():
                     print(getLog())
                 OP_LEV2_4 = input(f'1: Print System Log q: Return\n')
 
-        OP_LEV1 = input(f'1: Course 2: Activity 3: Guide q: Quit\n')
+        OP_LEV1 = input(f'1: Course 2: Activity 3: Guide 4. Virtual Time 5. Check System Log q: Quit\n')
 
 
 

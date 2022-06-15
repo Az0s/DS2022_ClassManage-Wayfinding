@@ -1,11 +1,13 @@
 '''
 Date: 2022-04-05 00:24:27
 LastEditors: Azus
-LastEditTime: 2022-06-15 03:23:43
+LastEditTime: 2022-06-15 14:26:19
 FilePath: /DS/users/azus/documents/code/py/ds/backend/module/DB_Stu.py
 '''
 
+from select import select
 import pandas as pd
+from torch import true_divide
 # StudentNumber, Gender, Name, Class
 from logger import logger 
 # TODO Multi-threading
@@ -65,6 +67,8 @@ class db_students(object):
         
     def add_event(self, student: int, new_event: list) -> bool: # add class info to a student 
         self.load()
+        if(self.if_conflict(int(student), new_event[0])==True):
+            return False
         try:
             # self.df.loc[student]['Class'] = classes
             # df 读出来的内容为string，用json转化为list
@@ -73,7 +77,6 @@ class db_students(object):
             # print(type(ori_event))
             event.extend(new_event)
             self.df.loc[student]['Event'] = f'{event}'
-        
         except KeyError:
             return False
         self.save()
@@ -117,6 +120,12 @@ class db_students(object):
         # the name of the first student
         print(ary[0][2])
         return ary
+    def if_conflict(self, stuNo, EvtNo):
+        selected = self.query(int(stuNo)).to_dict()["Event"]
+        if str(EvtNo) in selected:
+            return True
+        else:
+            return False
         
 # construct new studnet from stdin 
 def get_new_student() -> list:
@@ -158,7 +167,8 @@ if __name__ == '__main__':
 
 
     # students.get_db_as_list()
-    students.add_event(2020211554, [202251])
+    # students.add_event(2020211554, [202251])
+    print(students.if_conflict(2020211555, 55))
     
 
 
