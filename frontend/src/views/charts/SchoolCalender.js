@@ -17,8 +17,9 @@ import {
     CTable,
     CTableRow,
     CTableDataCell,
-    CSpinner,
+
 } from "@coreui/react";
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -335,13 +336,13 @@ const SchoolCalender = () => {
     };
     // setTimetable(updateTimetable());
     const RenderTimetable = () => {
-        if (false == isOK) {
-            return (
-                <>
-                    <CSpinner color="primary" />
-                </>
-            );
-        }
+        // if (false == isOK) {
+        //     return (
+        //         <>
+        //             <CSpinner color="primary" />
+        //         </>
+        //     );
+        // }
         return (
             <CTableBody>
                 {timetable.map((item, index) => {

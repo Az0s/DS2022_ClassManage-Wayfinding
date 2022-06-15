@@ -2,7 +2,7 @@
 Description: 
 Author: Carl
 Date: 2022-06-14 20:09:13
-LastEditTime: 2022-06-15 04:03:20
+LastEditTime: 2022-06-15 09:42:33
 LastEditors: Azus
 '''
 import user 
@@ -12,6 +12,7 @@ import map as mp
 import timing as t
 from logger import getLog
 import DB_Classes
+import DB_Stu
         
 DB_PATH_CLASS = '/Users/azus/Documents/Code/Py/DS/DB/class.csv'
 DB_PATH_STU = '/Users/azus/Documents/Code/Py/DS/DB/student.csv'
@@ -53,6 +54,8 @@ class apis():
         self.OP_LEV2 = op
     def get_classes(self):
         return DB_Classes.classes.df.to_json(orient = 'records' , force_ascii=False)
+    def get_student(self):
+        return 
     def get(self):
         #USER_STU
         # OP_LEV1 (_type_): '1: Course 2: Activity 3: Guide 4. Virtual Time 5. Check System Log q: Quit'
@@ -194,10 +197,10 @@ def Interface():
                     #TODO 闹钟
                     # 2022,06,15,1,26,something
                     # year, month, day, hour, minute = map(str, input("input year, month, day, hour, minute, info").split(','))
-                    year, month, day, hour, minute, info= map(str, input("input year, month, day, hour, minute, info\ne.g.. 2022,06,15,3,49,info").split(','))
-
+                    year, month, day, hour, minute, info= map(str, input("input year, month, day, hour, minute, info\ne.g.. 2022,06,15,3,49,info\n").split(','))
+                    recur = input(f"set if recur\n0: Single Timer\n1:Daily Timer\n2:Weekly Timer")
                     # print(f'{year}, {minute}')
-                    timer.setAlarm(year, month, day, hour, minute, info)
+                    timer.setAlarm(year, month, day, hour, minute, info, recur)
                     
                 OP_LEV2_2 = input(f'1: Inquiry 2: Add Activity  3: Set Clock  q: Return\n')
             

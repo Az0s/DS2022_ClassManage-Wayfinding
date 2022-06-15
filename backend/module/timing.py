@@ -1,16 +1,18 @@
 '''
 Date: 2022-04-15 19:06:50
 LastEditors: Azus
-LastEditTime: 2022-06-15 01:37:49
+LastEditTime: 2022-06-15 09:38:27
 FilePath: /DS/backend/module/timing.py
 '''
 from ast import arg
 from calendar import week
 from datetime import datetime
 from threading import local, Timer
+from logger import logger
 import threading
 import time
 import datetime 
+
 import os
 import json
 
@@ -106,20 +108,40 @@ class timer(object):
         self.save()
         pass
 
-    def setAlarm(self, year, month, day:int, hour, minute,  info:str):
+    def setAlarm(self, year, month, day:int, hour, minute,  info:str, recur):
+        """_summary_
+
+        Args:
+            year (_type_): _description_
+            month (_type_): _description_
+            day (int): _description_
+            hour (_type_): _description_
+            minute (_type_): _description_
+            info (str): _description_
+            recur (_type_): if recur. 0 no recur, 1 recur every day, 2 recur every week 
+        """
         setTime = time.strptime(f'{year}-{month}-{day}-{hour}-{minute}', "%Y-%m-%d-%H-%M")
         interval = time.mktime(setTime) - self.get_time_secs()
         print(interval)
         # Timer(interval, lambda:print(f"Timer: {info}")).start()
-        thread = threading.Thread(target=self.handleAlarm, args=[setTime, info])
+        logger.info(f"Timer set for {time.strftime(FMT_FORMAT, setTime)}")
+        print(f"Timer set for {time.strftime(FMT_FORMAT, setTime)}")
+        thread = threading.Thread(target=self.handleAlarm, args=[time.mktime(setTime), info, recur])
         thread.start()
 
-    def handleAlarm(self,setTime, info):
+    def handleAlarm(self, TimeSecs, info, recur):
         while(1):
             time.sleep(1)
-            if(time.mktime(setTime) - self.get_time_secs()<=0):
+            if(TimeSecs - self.get_time_secs()<=0):
                 # ! modify alarm behavior 
-                print(f"Timer: {info}")
+                logger.info(f"Timer {info} goes off.")
+                print(f"Timer: {info}\n")
+                if(recur == 1):
+                    thread = threading.Thread(target=self.handleAlarm, args=[TimeSecs+86400, info, recur])
+                    thread.start()
+                elif(recur == 2):
+                    thread = threading.Thread(target=self.handleAlarm, args=[TimeSecs+604800, info, recur])
+                    thread.start()
                 break
                 
         
@@ -130,17 +152,17 @@ if __name__ == "__main__":
     timer = timer()
     # 重制
 
-    timer.reset()
     # timer.reset()
 
     # 设置虚拟时间
 
-    
+    # timer.reset()
     print(timer.get_time_str())
-    
-    timer.setAlarm("2022", "06", "15", "01", "21", "Fucking alarm")
-    timer.setdeltaT(10)
-
+    # timer.setdeltaT(1000)
+    # timer.setdeltaT(1000)
+    # timer.reset()
+    timer.setAlarm("2022", "06", "15", "09", "39", "Daily Alarm", recur=1)
+    timer.setdeltaT(1000)
     while(1):
         print(timer.get_time_str())
         time.sleep(1)

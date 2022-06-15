@@ -18,8 +18,8 @@ class map:
     V_walk = 1.25
     V_bicycle = 5                 #m/s
 
-    Hmapdict = {}  # 列表存储有向图
-    Smapdict = {}  # 列表存储有向图
+    Hmapdict = {}  # 字典存储有向图
+    Smapdict = {}  # 字典存储有向图
 
     H_Build_List = [
         '海淀北一教',

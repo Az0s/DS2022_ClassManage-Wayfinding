@@ -147,3 +147,10 @@
 2022-06-15 03:22:09,233 - logger - INFO - STUDENT DB LOADED
 2022-06-15 03:46:04,477 - logger - INFO - CLASSES DB LOADED
 2022-06-15 04:22:09,425 - logger - INFO - CLASSES DB LOADED
+2022-06-15 09:36:50,121 - logger - INFO - Timer set for 2022-06-15-09:37-Wed
+2022-06-15 09:37:00,163 - logger - INFO - Timer Daily Alarm goes off.
+2022-06-15 09:38:08,759 - logger - INFO - Timer set for 2022-06-15-09:39-Wed
+2022-06-15 09:38:09,762 - logger - INFO - Timer Daily Alarm goes off.
+2022-06-15 09:38:30,627 - logger - INFO - Timer set for 2022-06-15-09:39-Wed
+2022-06-15 09:38:47,156 - logger - INFO - Timer set for 2022-06-15-09:39-Wed
+2022-06-15 09:38:48,160 - logger - INFO - Timer Daily Alarm goes off.

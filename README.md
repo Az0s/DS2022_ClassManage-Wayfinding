@@ -3,44 +3,76 @@
 
 
 ## How to start
-1. client side web server
+1. Client side web server
 ```sh
 cd frontend && npm install #install node modules
 npm start #start local web server
+cd ./../backend/module && python app.py  # start flask server 
+```
+2. CLI Interface 
+```sh
+cd ./../backend/module && python interface.py  # start CLI 
 ```
 
-## ./backend/ structure
+## 模块结构
+```
+
 .
-├── DB  
-│   ├── class.csv   **Class DB**  
-│   ├── coursework  **Coursework storage**  
-│   │   └── 202201  
-│   └── student.csv **Student DB*$$*  
+├── DB     
+│   ├── class.csv               **课程数据库**  
+│   ├── coursework              **作业文件储存**  
+│   │   ├── 202201    
+│   │   └── 202205  
+│   └── student.csv             **学生数据库**  
 ├── README.md  
-├── backend       
-│   ├── DB.py   **DB proto**  
-│   ├── DB_Classes.py   **provide `classes` as db_class**  
-│   ├── DB_Stu.py   - **provide `students`**  
-│   ├── Server  **flask server**  
-│   │   ├── app.py   
-│   │   └── reverseProxy.py  
-│   ├── coursework.py   **coursework upload and management**  
-│   ├── log.txt     **sys log**   
-│   ├── logger.py   **sys log module**  
-│   ├── timing.py   **virtual time module**  
-│   ├── user.py **CLI interface**  
-│   ├── util.py - utils  
-│   └── zip.py  **zip function for file upload**  
-├── frontend    **npm env with react**  
-│   ├── README.md  
-│   ├── package-lock.json  
-│   ├── package.json  
-│   ├── public  
-│   └── src  
-├── log.txt  
-├── settings.json  
-├── test.ipynb   
-└── time.json   **virtual time config**  
+├── backend  
+│   ├── client.py               **前端模拟接口脚本**  
+│   ├── module  
+│   │   ├── DB.py               **数据操作原型**  
+│   │   ├── DB_Classes.py       **课程信息数据操作**  
+│   │   ├── DB_Stu.py           **学生信息数据操作**  
+│   │   ├── __init_.py          **Module __init__**  
+│   │   ├── app.py              **Flask APP Http服务器**  
+│   │   ├── coursework.py       **作业文件处理模块**  
+│   │   ├── interface.py        **CLI/API交互接口**  
+│   │   ├── log.txt             **日志文件**  
+│   │   ├── logger.py           **日志模块**  
+│   │   ├── map.py              **寻路模块**  
+│   │   ├── reverseProxy.py     **Flask反向代理脚本**  
+│   │   ├── time.json       **虚拟时间储存文件**  
+│   │   ├── timing.py       **虚拟时间、闹钟模块**  
+│   │   ├── user.py         **课内外交互管理**  
+│   │   ├── util.py       
+│   │   └── zip.py          **压缩功能模块**  
+├── frontend
+│   ├── build
+│   ├── node_modules
+│   ├── package.json
+│   ├── public
+│   ├── src                 **React源文件**
+│   │   ├── App.js  
+│   │   ├── App.test.js
+│   │   ├── _nav.js         **navbar对象**
+│   │   ├── apis.js         **接口函数**
+│   │   ├── assets
+│   │   ├── components      **react组件**
+│   │   │   ├── ...
+│   │   ├── index.js        **入口文件**
+│   │   ├── layout  
+│   │   ├── reportWebVitals.js
+│   │   ├── routes.js       **react-router配置**
+│   │   ├── scss            **scss样式文件**
+│   │   ├── store.js        **Redux配置**
+│   │   └── views           **渲染页面**
+├── log.txt                 **日志保存**
+├── settings.json
+├── time.json               **虚拟时间储存**
+└── tree.txt                
+
+861 directories, 57 files
+```
+
+
 
 
 ## TODO

@@ -1,7 +1,7 @@
 '''
 Date: 2022-04-07 22:28:19
 LastEditors: Azus
-LastEditTime: 2022-06-14 21:37:23
+LastEditTime: 2022-06-15 05:36:29
 FilePath: /DS/backend/module/coursework.py
 '''
 import os
@@ -13,6 +13,9 @@ from DB_Classes import classes
 from DB_Stu import students
 import hashlib
 import zip as zp
+import math
+import jieba
+import jieba.analyse
 
 COURSEWORK_FOLDER='/Users/azus/Documents/Code/Py/DS/DB/coursework/'
 
@@ -98,6 +101,80 @@ if __name__ == "__main__":
     # zp.decompress('/Users/azus/Documents/Code/Py/DS/DB/coursework/202201/2020211550/2022040138_b535.png', '/Users/azus/Documents/Code/Py/DS/exp.png')
     logger.info(f"test info")
 
+# -*- encoding:utf-8 -*-
+
+# Partial similarity check based on hamming distance
+class SimHash(object):
+    def getBinStr(self, source):
+        if source == "":
+            return 0
+        else:
+            x = ord(source[0]) << 7
+            m = 1000003
+            mask = 2 ** 128 - 1
+            for c in source:
+                x = ((x * m) ^ ord(c)) & mask
+            x ^= len(source)
+            if x == -1:
+                x = -2
+            x = bin(x).replace('0b', '').zfill(64)[-64:]
+            return str(x)
+    def getWeight(self, source):
+        return ord(source)
+    def unwrap_weight(self, arr):
+        ret = ""
+        for item in arr:
+            tmp = 0
+            if int(item) > 0:
+                tmp = 1
+            ret += str(tmp)
+        return ret
+    def sim_hash(self, rawstr):
+        seg = jieba.cut(rawstr)
+        keywords = jieba.analyse.extract_tags("|".join(seg), topK=100, withWeight=True)
+        ret = []
+        for keyword, weight in keywords:
+            binstr = self.getBinStr(keyword)
+            keylist = []
+            for c in binstr:
+                weight = math.ceil(weight)
+                if c == "1":
+                    keylist.append(int(weight))
+                else:
+                    keylist.append(-int(weight))
+            ret.append(keylist)
+        # 降维
+        rows = len(ret)
+        cols = len(ret[0])
+        result = []
+        for i in range(cols):
+            tmp = 0
+            for j in range(rows):
+                tmp += int(ret[j][i])
+            if tmp > 0:
+                tmp = "1"
+            elif tmp <= 0:
+                tmp = "0"
+            result.append(tmp)
+        return "".join(result)
+    def distince(self, hashstr1, hashstr2):
+        length = 0
+        for index, char in enumerate(hashstr1):
+            if char == hashstr2[index]:
+                continue
+            else:
+                length += 1
+        return length
+if __name__ == "__main__":
+    simhash = SimHash()
+    str1 = '例子文本1'
+    str2 = '例子文本2'
+    hash1 = simhash.sim_hash(str1)
+    # print(hash1)
+    hash2 = simhash.sim_hash(str2)
+    distince = simhash.distince(hash1, hash2)
+    value = 5
+    print("simhash", distince, "距离：", value, "是否相似：", distince<=value)
     
     
 
